@@ -24,6 +24,8 @@ import org.openftc.revextensions2.RevBulkData;
  * trajectory following performance with moderate additional complexity.
  */
 public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
+
+
     private ExpansionHubEx hub;
     private List<ExpansionHubMotor> motors, leftMotors, rightMotors;
     private BNO055IMU imu;

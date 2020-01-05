@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive.SketchyTests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -6,12 +6,13 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.drive.localizer.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.localizer.TwoTrackingWheelLocalizer;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
+import org.openftc.revextensions2.ExpansionHubMotor;
+
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 
 /**
  * This is a simple teleop routine for testing localization. Drive the robot around like a normal
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
  */
 @Config
 @TeleOp(group = "drive")
-public class LocalizationTest extends LinearOpMode {
+public class TwoWheelAutoPather extends LinearOpMode {
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
@@ -32,9 +33,14 @@ public class LocalizationTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         SampleMecanumDriveREVOptimized drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+
+
+        for (ExpansionHubMotor motor : drive.motors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+        drive.setLocalizer(new TwoTrackingWheelLocalizer(hardwareMap));
         waitForStart();
-        drive.setPoseEstimate(new Pose2d(0,0,0));
+        drive.setPoseEstimate(new Pose2d(-36,-60,0));
 
         while (!isStopRequested()) {
             Pose2d baseVel = new Pose2d(
@@ -70,6 +76,7 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("Right", drive.Lift2.getCurrentPosition());
             telemetry.addData("Left", drive.LeftIntake.getCurrentPosition());
             telemetry.addData("Strafe", drive.RightIntake.getCurrentPosition());
+            telemetry.addData("Velocity", drive.getWheelVelocities());
             telemetry.update();
         }
     }

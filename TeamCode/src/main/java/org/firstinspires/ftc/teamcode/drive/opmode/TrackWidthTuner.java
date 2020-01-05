@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
+import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 /*
  * This routine determines the effective track width. The procedure works by executing a point turn
@@ -34,10 +36,10 @@ public class TrackWidthTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
+        SampleMecanumDriveREVOptimized drive = new SampleMecanumDriveREVOptimized(hardwareMap);
         // TODO: if you haven't already, set the localizer to something that doesn't depend on
         // drive encoders for computing the heading
-
+        drive.setLocalizer(new MecanumDrive.MecanumLocalizer(drive));
         telemetry.addLine("Press play to begin the track width tuner routine");
         telemetry.addLine("Make sure your robot has enough clearance to turn smoothly");
         telemetry.update();

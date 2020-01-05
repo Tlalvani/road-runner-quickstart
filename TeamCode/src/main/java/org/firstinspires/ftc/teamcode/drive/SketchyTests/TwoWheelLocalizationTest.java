@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive.SketchyTests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -7,10 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.drive.localizer.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.localizer.TwoTrackingWheelLocalizer;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 /**
@@ -22,7 +19,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
  */
 @Config
 @TeleOp(group = "drive")
-public class LocalizationTest extends LinearOpMode {
+public class TwoWheelLocalizationTest extends LinearOpMode {
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
@@ -32,7 +29,7 @@ public class LocalizationTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         SampleMecanumDriveREVOptimized drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+        drive.setLocalizer(new TwoTrackingWheelLocalizer(hardwareMap));
         waitForStart();
         drive.setPoseEstimate(new Pose2d(0,0,0));
 
@@ -70,6 +67,7 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("Right", drive.Lift2.getCurrentPosition());
             telemetry.addData("Left", drive.LeftIntake.getCurrentPosition());
             telemetry.addData("Strafe", drive.RightIntake.getCurrentPosition());
+            telemetry.addData("Velocity", drive.getWheelVelocities());
             telemetry.update();
         }
     }

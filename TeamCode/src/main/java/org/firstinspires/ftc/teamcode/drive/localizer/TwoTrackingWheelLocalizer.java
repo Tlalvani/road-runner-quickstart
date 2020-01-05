@@ -4,11 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
-import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -34,24 +30,23 @@ import java.util.List;
  * Note: this could be optimized significantly with REV bulk reads
  */
 @Config
-public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
+public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
     public static double WHEEL_RADIUS = 1.2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 10.2; // in; distance between the left and right wheels
+    public static double LATERAL_DISTANCE = 9; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = 6; // in; offset of the lateral wheel
     public static double FRONT_OFFSET = 3;
 
     private ExpansionHubMotor leftEncoder, rightEncoder, frontEncoder;
     private ExpansionHubEx hub2;
     private List<ExpansionHubMotor> encoders;
+    private BNO055IMU imu;
 
-
-    public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
+    public TwoTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
                 new Pose2d(FRONT_OFFSET, LATERAL_DISTANCE / 2, 0), // left
-                new Pose2d(FRONT_OFFSET, -LATERAL_DISTANCE / 2, 0), // right
                 new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front
         ));
 
@@ -59,9 +54,10 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         rightEncoder = hardwareMap.get(ExpansionHubMotor.class,"Lift2");
         frontEncoder = hardwareMap.get(ExpansionHubMotor.class,"rightintake");
         hub2 = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 2");
-
-
-        encoders = Arrays.asList(leftEncoder, rightEncoder, frontEncoder);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
 
     }
 
@@ -80,17 +76,19 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         RevBulkData bulkData = hub2.getBulkInputData();
 
         if (bulkData == null) {
-            return Arrays.asList(0.0, 0.0, 0.0);
+            return Arrays.asList(0.0, 0.0);
         }
 
         List<Double> wheelPositions = new ArrayList<>();
-      /*  for (ExpansionHubMotor encoder : encoders) {
+       /* for (ExpansionHubMotor encoder : encoders) {
             wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(encoder)));
-
-        }*/
-        wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(leftEncoder)));
-        wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(rightEncoder)));
+        }
+      */    wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(leftEncoder)));
         wheelPositions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(frontEncoder)));
         return wheelPositions;
+    }
+    @Override
+    public double getHeading() {
+        return imu.getAngularOrientation().firstAngle;
     }
 }

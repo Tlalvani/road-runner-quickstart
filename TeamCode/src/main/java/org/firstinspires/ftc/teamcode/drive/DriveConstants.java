@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
+import com.qualcomm.hardware.motors.RevRobotics20HdHexMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 /*
@@ -27,14 +28,15 @@ public class DriveConstants {
      * @DeviceProperties and @MotorType annotations.
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
+            MotorConfigurationType.getMotorType(RevRobotics20HdHexMotor.class);
 
     /*
      * Set the first flag appropriately. If using the built-in motor velocity PID, update
      * MOTOR_VELO_PID with the tuned coefficients from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static final PIDCoefficients MOTOR_VELO_PID = null;
+    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(10,3,1); //2.5,.1,.2
+
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -44,9 +46,9 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 2;
+    public static double WHEEL_RADIUS = 1.96;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1;
+    public static double TRACK_WIDTH = 12.5;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -58,6 +60,12 @@ public class DriveConstants {
     public static double kA = 0;
     public static double kStatic = 0;
 
+    public static double velocity = 45;
+    public static double accel = 35;
+    public static double jerk = 0;
+
+
+
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
      * the constraints should never exceed ~80% of the robot's actual capabilities. While Road
@@ -67,8 +75,8 @@ public class DriveConstants {
      * forces acceleration-limited profiling).
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 30.0, 0.0,
-            Math.toRadians(180.0), Math.toRadians(180.0), 0.0
+            velocity, accel, jerk,
+            Math.toRadians(90.0), Math.toRadians(90.0), 0.0
     );
 
 
