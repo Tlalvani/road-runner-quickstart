@@ -25,12 +25,12 @@ public class RedRoadRunnerAuto extends SSAutoClasses {
 
 
  Pose2d Start = new Pose2d(-36,-60,0);
- Pose2d FirstBlock = new Pose2d(-53,-36,0);
- Pose2d SecondBlock = new Pose2d(-48,-36,0);
- Pose2d ThirdBlock = new Pose2d(-40,-36,0);
- Pose2d FourthBlock = new Pose2d(-29,-36,0);
- Pose2d FifthBlock = new Pose2d(-22,-36,0);
- Pose2d SixthBlock = new Pose2d(-16,-36,0);
+ Pose2d FirstBlock = new Pose2d(-53,-35.5,0);
+ Pose2d SecondBlock = new Pose2d(-48,-35.5,0);
+ Pose2d ThirdBlock = new Pose2d(-40,-35.5,0);
+ Pose2d FourthBlock = new Pose2d(-29,-35.5,0);
+ Pose2d FifthBlock = new Pose2d(-22,-35.5,0);
+ Pose2d SixthBlock = new Pose2d(-14,-35.5,0);
  Pose2d Foundation = new Pose2d(54,-32,0);
  Pose2d Foundation2 = new Pose2d(56,-32,0);
  Pose2d Foundation3 = new Pose2d(58,-33,0);

@@ -29,7 +29,7 @@ public class BlueRoadRunnerAuto extends SSAutoClasses {
  Pose2d SecondBlock = new Pose2d(-52,37,0);
  Pose2d ThirdBlock = new Pose2d(-44,37,0);
      Pose2d FourthBlock = new Pose2d(-36,37,0);
-     Pose2d FifthBlock = new Pose2d(-28,37,0);
+     Pose2d FifthBlock = new Pose2d(-29,37,0);
      Pose2d SixthBlock = new Pose2d(-20,37,0);
      Pose2d Foundation = new Pose2d(48,35.5,0);
     Pose2d Foundation3 = new Pose2d(52,35.5,0);

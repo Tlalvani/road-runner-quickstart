@@ -56,6 +56,7 @@ public class NoArmRedRoadRunnerAuto extends SSAutoClasses {
                             //drive.AutoArmRotate.setPosition(servorotatered);
                             return Unit.INSTANCE;})
                 .strafeTo(RedStoneMove(skystone))
+
                 .build();
 
 

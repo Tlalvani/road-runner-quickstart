@@ -270,7 +270,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                             AutoArmRotate.setPosition(servorotateback);
                             return Unit.INSTANCE;})
                         .setReversed(true)
-                        .addMarker(new Vector2d(-10,redyoffset),
+                        .addMarker(new Vector2d(-7,redyoffset),
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})

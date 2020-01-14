@@ -34,8 +34,10 @@ public class SSHardwareDrivebase {
     double AngleTolerance = 3.5;
  double maxpower = .3;
 
+//leftclaw is gripper
+    //right claw is capstone
 
-    double leftclawclose = .8; //.72
+    double leftclawclose = .9; //.72
     double rightclawclose = .2; //.27
     double leftclawopen = .49;
     double gripperup = .2;
@@ -49,7 +51,7 @@ public class SSHardwareDrivebase {
     double servorotaterblue = .03;
     double servorotatered = .68;
     double servorotateback = .35;
-    double servorotatehome = .93;
+    double servorotatehome = .95;
 
     double servoarmup = .18;
     double servoarmdown = .45;
@@ -62,10 +64,10 @@ public class SSHardwareDrivebase {
     double servojointdeliverred = .5;
     double servojointhome = .2;
 
-    double leftlatchopen = .44;
+    double leftlatchopen = .28;
     double rightlatchopen = .49;
-    double leftlatchclose = .28;
-    double rightlatchclose = .65;
+    double leftlatchclose = .6;
+    double rightlatchclose = .7;
 
     double grab1close = .63;
     double grab2close = .23;

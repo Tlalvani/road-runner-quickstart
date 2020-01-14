@@ -56,7 +56,7 @@ abstract public class SSAutoClasses extends LinearOpMode {
     public static double servorotaterblue = .05;
     public static double servorotatered = .68;
     public static double servorotateback = .35;
-    public static double servorotatehome = .93;
+    public static double servorotatehome = .96;
 
     public static double servoarmup = .18;
     public static double servoarmdown = .45;
@@ -296,9 +296,9 @@ telemetry.update();
         if (skystone == 1 || skystone == 0) {
             position = new Vector2d(-60,37);
         } else if (skystone == 2) {
-            position = new Vector2d(-52,37);
+            position = new Vector2d(-54,37);
         } else if (skystone == 3) {
-           position = new Vector2d(-44,37);
+           position = new Vector2d(-46,37);
         }
 return position;
     }
