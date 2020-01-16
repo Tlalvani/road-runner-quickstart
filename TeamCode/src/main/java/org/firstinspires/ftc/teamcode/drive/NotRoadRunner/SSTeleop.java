@@ -38,7 +38,7 @@ public class SSTeleop extends OpMode {
     SSHardwareDrivebase robot = new SSHardwareDrivebase();
     double currentVelocity;
     double maxVelocity = 0.0;
-
+    boolean intakearmout = true;
 
     /* Constructor */
     @Override
@@ -70,13 +70,15 @@ public class SSTeleop extends OpMode {
      */
     @Override
     public void loop() {
-        currentVelocity = robot.PID.getVelocity();
 
-        if (currentVelocity > maxVelocity) {
-            maxVelocity = currentVelocity;
+        if(intakearmout){
+            robot.RightIntakeArm.setPosition(robot.rightintakearmout);
+            robot.LeftIntakeArm.setPosition(robot.leftintakearmout);
         }
-
-
+        else{
+            robot.RightIntakeArm.setPosition(robot.rightintakearmin);
+            robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
+        }
         if(runtime.seconds()>122){
             robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
         }
@@ -135,16 +137,13 @@ else{
         robot.Lift2.setPower(lift);
 
         if(gamepad1.right_trigger>.1){
-            robot.RightIntakeArm.setPosition(robot.rightintakearmout);
-            robot.LeftIntakeArm.setPosition(robot.leftintakearmout);
-
+            intakearmout = true;
         }
 
         if(gamepad1.right_bumper){
             robot.LeftIntake.setPower(1);
             robot.RightIntake.setPower(1);
-            robot.RightIntakeArm.setPosition(robot.rightintakearmin);
-            robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
+            intakearmout = false;
             robot.LeftClaw.setPosition(robot.leftclawopen);
             robot.RightClaw.setPosition(robot.rightclawclose);
         }
@@ -152,14 +151,12 @@ else{
         else if (gamepad1.x){
             robot.LeftIntake.setPower(-1);
             robot.RightIntake.setPower(-1);
-            robot.RightIntakeArm.setPosition(robot.rightintakearmin);
-            robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
+            intakearmout = false;
         }
         else{
             robot.LeftIntake.setPower(0);
             robot.RightIntake.setPower(0);
-            robot.RightIntakeArm.setPosition(robot.rightintakearmout);
-            robot.LeftIntakeArm.setPosition(robot.leftintakearmout);
+
 
 
         }
@@ -167,13 +164,12 @@ else{
         if(gamepad1.left_bumper){
             robot.LeftClaw.setPosition(robot.leftclawclose);
             robot.RightClaw.setPosition(robot.rightclawclose);
-
-            robot.RightIntakeArm.setPosition(robot.rightintakearmout);
-            robot.LeftIntakeArm.setPosition(robot.leftintakearmout);
+            intakearmout = false;
         }
 
         if(gamepad1.a){
             robot.LeftClaw.setPosition(robot.leftclawopen);
+            intakearmout = true;
         }
 
         if(gamepad1.y){

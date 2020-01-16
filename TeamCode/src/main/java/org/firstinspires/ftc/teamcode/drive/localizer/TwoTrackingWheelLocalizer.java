@@ -16,18 +16,18 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
- * Sample tracking wheel localizer implementation assuming the standard configuration:
+ * Sample tracking wheel localizer implementation assuming this two wheel configuration:
  *
  *    /--------------\
- *    |     ____     |
- *    |     ----     |
- *    | ||        || |
- *    | ||        || |
+ *    |         ____ |
+ *    | ||      ---- |
+ *    | ||           |
+ *    |              |
  *    |              |
  *    |              |
  *    \--------------/
  *
- * Note: this could be optimized significantly with REV bulk reads
+ * Note: this is optimized significantly with REV bulk reads
  */
 @Config
 public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer {
@@ -35,8 +35,9 @@ public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.local
     public static double WHEEL_RADIUS = 1.2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 9; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 3; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 5.1;  //4.5 // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 3.4; // in; offset of the lateral wheel
+
     public static double FRONT_OFFSET = 3;
     public static double HORIZONTAL_OFFSET = 3;
 
@@ -47,7 +48,7 @@ public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.local
 
     public TwoTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
-                new Pose2d(FRONT_OFFSET, LATERAL_DISTANCE / 2, 0), // left
+                new Pose2d(FRONT_OFFSET, LATERAL_DISTANCE, 0), // left
                 new Pose2d(FORWARD_OFFSET, HORIZONTAL_OFFSET, Math.toRadians(90)) // front
         ));
 
