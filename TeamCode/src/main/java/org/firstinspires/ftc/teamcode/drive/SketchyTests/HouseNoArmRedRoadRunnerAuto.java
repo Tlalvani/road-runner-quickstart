@@ -61,20 +61,15 @@ public class HouseNoArmRedRoadRunnerAuto extends SSAutoClasses {
       drive.followTrajectorySync(theskystone);
 
 
-        drive.Yeet(Foundation,false);
-        drive.Yeet(FourthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(Foundation,0,false);
+        drive.Yeet(FourthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
        /* drive.ReverseYeet(ThirdBlock);
         drive.Yeet(Foundation);
        /* drive.ReverseYeet(FifthBlock);
         drive.Yeet(Foundation); */
-        drive.Yeet(SixthBlock,true);
-        drive.Yeet(Foundation,false);
-
-       drive.Yeet(Start,true);
-
-
-
+        drive.Yeet(SixthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
 
 
 

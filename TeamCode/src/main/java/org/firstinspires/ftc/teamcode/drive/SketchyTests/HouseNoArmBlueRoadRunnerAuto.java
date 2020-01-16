@@ -59,14 +59,14 @@ Pose2d Park = new Pose2d(10,40,Math.toRadians(180));
                 .build();
         drive.followTrajectorySync(theskystone);
         drive.LEDDeliverMove(Foundation);
-        drive.Yeet(FourthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(FourthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
        /* drive.ReverseYeet(ThirdBlock);
         drive.Yeet(Foundation);
        /* drive.ReverseYeet(FifthBlock);
         drive.Yeet(Foundation); */
-        drive.Yeet(SixthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(SixthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
 
 
 

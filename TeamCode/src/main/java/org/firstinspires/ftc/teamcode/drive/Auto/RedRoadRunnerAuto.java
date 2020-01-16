@@ -91,7 +91,7 @@ Pose2d Park = new Pose2d(5,-36,0);
         StoneDeliver();
 
         ArmUpReset();
-       drive.Yeet(FoundationGrab,false);
+       drive.Yeet(FoundationGrab,270,false);
        drive.AutoArmRotate.setPosition(servorotatehome);
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
@@ -99,11 +99,11 @@ Pose2d Park = new Pose2d(5,-36,0);
                         .build());
        GrabFoundation();
        sleep(350);
-        drive.Yeet(FoundationIn, true);
+        drive.Yeet(FoundationIn,0, true);
         ReleaseFoundation();
         ArmKill();
         sleep(350);
-        drive.Yeet(Park, true);
+        drive.Yeet(Park,0, true);
 
 
 
