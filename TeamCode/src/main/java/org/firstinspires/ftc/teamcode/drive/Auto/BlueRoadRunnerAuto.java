@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.drive.Auto;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
+import com.acmerobotics.roadrunner.path.heading.HeadingInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -90,7 +92,7 @@ Pose2d Park = new Pose2d(5,40,0);
         StoneDeliver();
 
         ArmUpReset();
-       drive.Yeet(FoundationGrab,false);
+       drive.Yeet(FoundationGrab,270,false);
        drive.AutoArmRotate.setPosition(servorotatehome);
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
@@ -98,11 +100,11 @@ Pose2d Park = new Pose2d(5,40,0);
                         .build());
        GrabFoundation();
        sleep(350);
-        drive.Yeet(FoundationIn, true);
+        drive.Yeet(FoundationIn,0, true);
         ReleaseFoundation();
         ArmKill();
         sleep(350);
-        drive.Yeet(Park, true);
+        drive.Yeet(Park, 0,true);
 
 
 

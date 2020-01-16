@@ -63,17 +63,17 @@ public class NoArmRedRoadRunnerAuto extends SSAutoClasses {
       drive.followTrajectorySync(theskystone);
 
 
-        drive.Yeet(Foundation,false);
-        drive.Yeet(FourthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(Foundation,0,false);
+        drive.Yeet(FourthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
        /* drive.ReverseYeet(ThirdBlock);
         drive.Yeet(Foundation);
        /* drive.ReverseYeet(FifthBlock);
         drive.Yeet(Foundation); */
-        drive.Yeet(SixthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(SixthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
 
-       drive.Yeet(FoundationGrab,false);
+       drive.Yeet(FoundationGrab,90,false);
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
@@ -81,11 +81,11 @@ public class NoArmRedRoadRunnerAuto extends SSAutoClasses {
                         .build());
        GrabFoundation();
        sleep(350);
-        drive.Yeet(FoundationIn, true);
+        drive.Yeet(FoundationIn,0, true);
         ReleaseFoundation();
 
-        drive.Yeet(Park, true);
-        drive.Yeet(FirstBlock,true);
+        drive.Yeet(Park, 0,true);
+        drive.Yeet(FirstBlock,0,true);
 
 
 

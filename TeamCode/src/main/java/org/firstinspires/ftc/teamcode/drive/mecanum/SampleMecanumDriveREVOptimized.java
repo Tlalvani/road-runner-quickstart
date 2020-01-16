@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -187,11 +188,11 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     }
 
 
-    public void Yeet(Pose2d position, boolean reversed){
+    public void Yeet(Pose2d position, double angle, boolean reversed){
         followTrajectorySync(
                 trajectoryBuilder()
                         .setReversed(reversed)
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(angle)))
                         .build()
         );
 
@@ -207,7 +208,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                             AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -224,7 +225,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                             AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -241,7 +242,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                              AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -257,7 +258,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -274,7 +275,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -291,7 +292,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -308,7 +309,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                         ()->{
                             blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
                             return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 

@@ -59,16 +59,16 @@ Pose2d Park = new Pose2d(10,40,Math.toRadians(180));
                 .build();
         drive.followTrajectorySync(theskystone);
         drive.LEDDeliverMove(Foundation);
-        drive.Yeet(FourthBlock,true);
-        drive.Yeet(Foundation,false);
+        drive.Yeet(FourthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
        /* drive.ReverseYeet(ThirdBlock);
         drive.Yeet(Foundation);
        /* drive.ReverseYeet(FifthBlock);
         drive.Yeet(Foundation); */
-        drive.Yeet(SixthBlock,true);
-        drive.Yeet(Foundation,false);
-       drive.Yeet(FoundationGrab,false);
-        drive.Yeet(FoundationGrabForward,false);
+        drive.Yeet(SixthBlock,0,true);
+        drive.Yeet(Foundation,0,false);
+       drive.Yeet(FoundationGrab,270,false);
+        drive.Yeet(FoundationGrabForward,0,false);
        /* drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .forward(5)
@@ -76,10 +76,10 @@ Pose2d Park = new Pose2d(10,40,Math.toRadians(180));
         );*/
        GrabFoundation();
        sleep(500);
-        drive.Yeet(FoundationIn, true);
+        drive.Yeet(FoundationIn, 0,true);
         ReleaseFoundation();
         sleep(500);
-        drive.Yeet(Park, true);
+        drive.Yeet(Park, 0,true);
 
 
 
