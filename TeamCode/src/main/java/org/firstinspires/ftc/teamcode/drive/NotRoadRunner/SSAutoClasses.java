@@ -52,22 +52,25 @@ abstract public class SSAutoClasses extends LinearOpMode {
     //750
     //1040
     //1300
+    SSHardwareDrivebase robot = new SSHardwareDrivebase();
 
-    public static double servorotaterblue = .05;
-    public static double servorotatered = .68;
-    public static double servorotateback = .35;
-    public static double servorotatehome = .96;
+    public static double servorotaterblue = new SSHardwareDrivebase().servorotaterblue;
+    public static double servorotatered = new SSHardwareDrivebase().servorotatered;
+    public static double servorotateback = new SSHardwareDrivebase().servorotateback;
+    public static double servorotatehome = new SSHardwareDrivebase().servorotatehome;
 
-    public static double servoarmup = .18;
-    public static double servoarmdown = .45;
-    public static double servoarmpickup = .5;
+    public static double servoarmup = new SSHardwareDrivebase().servoarmup;
+    public static double servoarmdown = new SSHardwareDrivebase().servoarmdown;
+    public static double servoarmpickup = new SSHardwareDrivebase().servoarmpickup;
     public static double servoarmhome = .37;
     public static double servoarmdeliver = .4;
-    public static double servojointup = .23;
+    public static double servojointback = .15;
+    public static double servojointup = .2;
     public static double servojointdown =.74;
     public static double servojointdeliver = .6;
     public static double servojointdeliverred = .5;
     public static double servojointhome = .2;
+
     // The IMU sensor object
     BNO055IMU imu;
 
@@ -83,17 +86,16 @@ abstract public class SSAutoClasses extends LinearOpMode {
     /* local OpMode members. */
     HardwareMap hwMap = null;
     protected ElapsedTime period = new ElapsedTime();
-    SSHardwareDrivebase robot = new SSHardwareDrivebase();
+
+
+    public double grab1open = robot.grab1open;
+    public double grab2open = robot.grab2open;
+    public double grab1close = robot.grab1close;
+    public double grab2close = robot.grab2close;
 
     private static final String VUFORIA_KEY =
             "AS+iypf/////AAABmVA+Shgi7EdsqH2d8iljwuh6/bNz0HoePOJW6LbOge+udoIv+21ZVTVE7Rbb6pcLmDZS0fP37WoY3OfgCQZBXOdLEpSXhJMHZuyD1V42qLPR9R+FarnuNWS21fr+EhRFPNatPM+riV2eQCS0WroErVmpvwDJUxQCI5Uk9ekS3TPW+9oEf/7V1OUr29wH6lMAwx0SOwTGW37/eaYWOpYpJRPJt9AtLrKupxQc6n9p87o/7oCBifNw0DLLb4L8WN3FaqhHuZ7iWYH3f1D7qcKetbfPW6oOEcTPhIhkERNOn+qiCj8zqJ626Bp1YLtOEEAdP+m25g7D3sJiwW32g/ekIFF8xNTNXwS830fKUHjB2z+D";
 
-    public VuforiaLocalizer vuforia;
-    public TFObjectDetector tfod;
-
-    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
     /* Constructor */
     public SSAutoClasses() {
@@ -205,8 +207,6 @@ telemetry.update();
     public void StonePickup(){
         //Stone pickup
         robot.AutoArm.setPosition(robot.servoarmpickup);
-        robot.Grab1.setPosition(robot.grab1open);
-        robot.Grab2.setPosition(robot.grab2open);
         robot.AutoArmJoint.setPosition(robot.servojointdown);
         sleep(250);
         robot.Grab1.setPosition(robot.grab1close);
@@ -216,15 +216,27 @@ telemetry.update();
         robot.AutoArm.setPosition(robot.servoarmdown);
         sleep(200);
     }
-
+    public void FirstStonePickup(){
+        //First SkyStone pickup
+        robot.AutoArm.setPosition(robot.servoarmpickup);
+        robot.Grab1.setPosition(robot.grab1open);
+        robot.Grab2.setPosition(robot.grab2open);
+        robot.AutoArmJoint.setPosition(robot.servojointdown);
+        sleep(250);
+        robot.Grab1.setPosition(robot.grab1close);
+        robot.Grab2.setPosition(robot.grab2close);
+        sleep(450);
+        robot.AutoArmJoint.setPosition(robot.servojointup);
+        robot.AutoArm.setPosition(robot.servoarmdown);
+        sleep(200);
+    }
     public void StoneDeliver(){
         //Deliver
         robot.AutoArm.setPosition(robot.servoarmdeliver);
         robot.AutoArmJoint.setPosition(robot.servojointdeliver);
-        sleep(250);
+        sleep(150);
         robot.Grab1.setPosition(robot.grab1open);
         robot.Grab2.setPosition(robot.grab2open);
-        sleep(100);
 
 
     }
@@ -292,23 +304,23 @@ telemetry.update();
 
 
     public Vector2d BlueStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-60,37);
+        Vector2d position = new Vector2d(-60.5,38.5);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-60,37);
+            position = new Vector2d(-60.5,38.5);
         } else if (skystone == 2) {
-            position = new Vector2d(-54,37);
+            position = new Vector2d(-52,38.5);
         } else if (skystone == 3) {
-           position = new Vector2d(-46,37);
+           position = new Vector2d(-43,38.5);
         }
 return position;
     }
 
     public Vector2d RedStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-53,-36);
+        Vector2d position = new Vector2d(-52,-36);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-53,-36);
+            position = new Vector2d(-52,-36);
         } else if (skystone == 2) {
-            position = new Vector2d(-45,-36);
+            position = new Vector2d(-43,-36);
         } else if (skystone == 3) {
             position = new Vector2d(-37,-36);
         }
@@ -332,6 +344,8 @@ return position;
     }
 
     public void ArmKill(){
+        robot.Grab1.setPosition(robot.grab1home);
+        robot.Grab2.setPosition(robot.grab2home);
         robot.AutoArm.setPosition(robot.servoarmhome);
         robot.AutoArm.setPwmDisable();
         robot.AutoArmJoint.setPwmDisable();

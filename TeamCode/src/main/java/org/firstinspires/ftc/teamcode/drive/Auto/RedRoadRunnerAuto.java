@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,9 +36,9 @@ public class RedRoadRunnerAuto extends SSAutoClasses {
  Pose2d Foundation2 = new Pose2d(56,-32,0);
  Pose2d Foundation3 = new Pose2d(58,-33,0);
  Pose2d FoundationGrab = new Pose2d(62,-29, Math.toRadians(90));
- Pose2d FoundationGrabForward = new Pose2d(60,-37.5, Math.toRadians(90));
+ Pose2d FoundationGrabForward = new Pose2d(62,-26, Math.toRadians(90));
  Pose2d FoundationIn = new Pose2d(42,-55,0);
-Pose2d Park = new Pose2d(5,-36,0);
+Pose2d Park = new Pose2d(3,-36,0);
 
 
     @Override
@@ -50,7 +51,7 @@ Pose2d Park = new Pose2d(5,-36,0);
 
         waitForStart();
         skystone = runPhoneDetection(0);
-        sleep(150);
+        sleep(50);
         if (isStopRequested()) return;
         Trajectory theskystone = drive.trajectoryBuilder()
                 .setReversed(true)
@@ -63,7 +64,7 @@ Pose2d Park = new Pose2d(5,-36,0);
 
 
         drive.followTrajectorySync(theskystone);
-        StonePickup();
+        FirstStonePickup();
         drive.RedDeliverMove(Foundation);
         StoneDeliver();
 
@@ -86,24 +87,39 @@ Pose2d Park = new Pose2d(5,-36,0);
         } else if (skystone == 3) {
             drive.RedPickupMove(FifthBlock);
         }
+
         StonePickup();
         drive.RedDeliverMove(Foundation3);
         StoneDeliver();
 
+        if (skystone == 1 || skystone == 0) {
+            drive.RedPickupMove(FifthBlock);
+        } else if (skystone == 2) {
+            drive.RedPickupMove(FourthBlock);
+        } else if (skystone == 3) {
+            drive.RedPickupMove(FourthBlock);
+
+        }
+
+        StonePickup();
+        drive.RedDeliverMove(Foundation3);
+        StoneDeliver();
+        sleep(100);
         ArmUpReset();
-       drive.Yeet(FoundationGrab,270,false);
-       drive.AutoArmRotate.setPosition(servorotatehome);
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .forward(6)
+                        .splineTo(FoundationGrab,new ConstantInterpolator(Math.toRadians(90)))
+                        .addMarker(()->{drive.AutoArmRotate.setPosition(servorotatehome);
+                            return Unit.INSTANCE;})
+                        .splineTo(FoundationGrabForward,new ConstantInterpolator(Math.toRadians(90)))
                         .build());
        GrabFoundation();
-       sleep(350);
+       sleep(150);
         drive.Yeet(FoundationIn,0, true);
         ReleaseFoundation();
         ArmKill();
-        sleep(350);
-        drive.Yeet(Park,0, true);
+        sleep(50);
+        drive.ConstantYeet(Park,0, true);
 
 
 

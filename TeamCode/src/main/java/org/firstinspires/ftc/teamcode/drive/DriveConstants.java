@@ -35,7 +35,7 @@ public class DriveConstants {
      * MOTOR_VELO_PID with the tuned coefficients from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(10,3,1); //2.5,.1,.2
+    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(20,5,5);                   //new PIDCoefficients(10,3,1); //2.5,.1,.2
 
 
     /*
@@ -60,8 +60,8 @@ public class DriveConstants {
     public static double kA = 0;
     public static double kStatic = 0;
 
-    public static double velocity = 45;
-    public static double accel = 35;
+    public static double velocity = 48;
+    public static double accel = 55;
     public static double jerk = 0;
 
 
@@ -76,7 +76,7 @@ public class DriveConstants {
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
             velocity, accel, jerk,
-            Math.toRadians(90.0), Math.toRadians(90.0), 0.0
+            Math.toRadians(135.0), Math.toRadians(135.0), 0.0
     );
 
 

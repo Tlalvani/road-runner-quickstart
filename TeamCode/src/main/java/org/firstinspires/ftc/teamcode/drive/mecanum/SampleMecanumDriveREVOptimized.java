@@ -5,7 +5,9 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCO
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVelocityF;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmdown;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmup;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotateback;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotatehome;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotaterblue;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotatered;
 
@@ -14,6 +16,8 @@ import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
+import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
+import com.acmerobotics.roadrunner.path.heading.TangentInterpolator;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -188,7 +192,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     }
 
 
-    public void Yeet(Pose2d position, double angle, boolean reversed){
+    public void ConstantYeet(Pose2d position, double angle, boolean reversed){
         followTrajectorySync(
                 trajectoryBuilder()
                         .setReversed(reversed)
@@ -197,6 +201,26 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
         );
 
     }
+
+    public void BlackMagicYeet(Pose2d position, double angle, boolean reversed){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .setReversed(reversed)
+                        .splineTo(position,new SplineInterpolator(Math.toRadians(angle),0))
+                        .build()
+        );
+
+    }
+    public void Yeet(Pose2d position, double angle, boolean reversed){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .setReversed(reversed)
+                        .splineTo(position)
+                        .build()
+        );
+
+    }
+
     public void BluePickupMove(Pose2d position){
         followTrajectorySync(
                 trajectoryBuilder()
@@ -208,7 +232,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                             AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
+                        .splineTo(position)
                         .build()
         );
 
@@ -221,11 +245,11 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                             AutoArmRotate.setPosition(servorotateback);
                             return Unit.INSTANCE;})
                         .setReversed(true)
-                        .addMarker(new Vector2d(-15,37),
+                        .addMarker(new Vector2d(-11,37),
                                 ()->{
                             AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
+                        .splineTo(position)
                         .build()
         );
 
@@ -242,6 +266,24 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                              AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
+                        .splineTo(position)
+                        .build()
+        );
+
+    }
+    public void BlueLastDeliverMove(Pose2d position){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .addMarker(
+                                new Vector2d(-22,37),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotateback);
+                                    return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(40,37),
+                                ()->{
+                                    AutoArm.setPosition(servoarmup);
+                                    AutoArmRotate.setPosition(servorotatehome);
+                                    return Unit.INSTANCE;})
                         .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
@@ -254,7 +296,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                             AutoArmRotate.setPosition(servorotateback);
                             return Unit.INSTANCE;})
                         .setReversed(true)
-                        .addMarker(new Vector2d(-15,redyoffset),
+                        .addMarker(new Vector2d(-12,redyoffset),
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})

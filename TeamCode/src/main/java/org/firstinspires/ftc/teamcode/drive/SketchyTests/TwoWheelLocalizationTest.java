@@ -59,14 +59,16 @@ public class TwoWheelLocalizationTest extends LinearOpMode {
 
             drive.update();
 
+
             Pose2d poseEstimate = drive.getLocalizer().getPoseEstimate();
+            double strafewheeloffset = ((drive.RightIntake.getCurrentPosition()*3.14*2.4)/8192)/drive.getRawExternalHeading();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", Math.toDegrees(poseEstimate.getHeading()));
             telemetry.addData("IMU", Math.toDegrees(drive.getRawExternalHeading()));
-            telemetry.addData("Right", drive.Lift2.getCurrentPosition());
             telemetry.addData("Left", drive.LeftIntake.getCurrentPosition());
             telemetry.addData("Strafe", drive.RightIntake.getCurrentPosition());
+            telemetry.addData("Strafe Wheel Offset", strafewheeloffset);
             telemetry.addData("Velocity", drive.getWheelVelocities());
             telemetry.update();
         }

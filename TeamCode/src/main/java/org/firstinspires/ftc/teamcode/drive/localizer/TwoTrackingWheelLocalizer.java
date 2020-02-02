@@ -39,7 +39,7 @@ public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.local
     public static double FORWARD_OFFSET = 3.4; // in; offset of the lateral wheel
 
     public static double FRONT_OFFSET = 3;
-    public static double HORIZONTAL_OFFSET = 3;
+    public static double HORIZONTAL_OFFSET = -5.1;
 
     private ExpansionHubMotor leftEncoder, rightEncoder, frontEncoder;
     private ExpansionHubEx hub2;

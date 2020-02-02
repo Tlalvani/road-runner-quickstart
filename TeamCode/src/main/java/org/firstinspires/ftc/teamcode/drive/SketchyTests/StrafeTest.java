@@ -24,7 +24,7 @@ public class StrafeTest extends SSAutoClasses {
         initSensors();
         drive.AutoArm.setPwmDisable();
         drive.setLocalizer(new TwoTrackingWheelLocalizer(hardwareMap));
-        drive.setPoseEstimate(new Pose2d(-36,60,0));
+        drive.setPoseEstimate(new Pose2d(0,0,0));
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .setReversed(true)
@@ -42,7 +42,8 @@ public class StrafeTest extends SSAutoClasses {
 
         if (isStopRequested()) return;
         //drive.AutoArmRotate.setPosition(servorotaterblue);
-        drive.followTrajectorySync(trajectory);
+       drive.Yeet(new Pose2d(30,0,Math.toRadians(90)),90,false);
+
 
         //drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 

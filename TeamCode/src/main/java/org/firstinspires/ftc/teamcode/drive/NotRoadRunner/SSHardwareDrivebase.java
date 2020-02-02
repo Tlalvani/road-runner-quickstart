@@ -45,29 +45,34 @@ public class SSHardwareDrivebase {
 
     double leftintakearmout = .6; //.52
     double rightintakearmout = .5; //.56
+
+    double leftintakearmfat = .4; //.52
+    double rightintakearmfat = .65; //.56
+
     double leftintakearmin = .9;
     double rightintakearmin = .35;
 
-    double servorotaterblue = .03;
-    double servorotatered = .68;
-    double servorotateback = .35;
-    double servorotatehome = .95;
+    double servorotaterblue = .09;
+    double servorotatered = .75;
+    double servorotateback = .41;
+    double servorotatehome = .98;
 
     double servoarmup = .18;
-    double servoarmdown = .45;
-   double servoarmpickup = .5;
+    double servoarmdown = .43;
+   double servoarmpickup = .49;
+
     double servoarmhome = .37;
     double servoarmdeliver = .4;
-    double servojointup = .23;
+    double servojointup = .18;
     double servojointdown =.74;
     double servojointdeliver = .6;
     double servojointdeliverred = .5;
     double servojointhome = .2;
 
-    double leftlatchopen = .28;
+    double leftlatchopen = .35;
     double rightlatchopen = .7;
-    double leftlatchclose = .66;
-    double rightlatchclose = .32;
+    double leftlatchclose = .5;
+    double rightlatchclose = .4;
 
     double grab1close = .63;
     double grab2close = .23;

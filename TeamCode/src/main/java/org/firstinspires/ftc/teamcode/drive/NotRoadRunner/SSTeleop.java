@@ -39,6 +39,7 @@ public class SSTeleop extends OpMode {
     double currentVelocity;
     double maxVelocity = 0.0;
     boolean intakearmout = true;
+    boolean intakearmfat = false;
 
     /* Constructor */
     @Override
@@ -71,7 +72,15 @@ public class SSTeleop extends OpMode {
     @Override
     public void loop() {
 
-        if(intakearmout){
+
+        if(gamepad1.right_bumper||gamepad1.x){
+            //OVERRIDE
+        }
+        else if(intakearmfat){
+            robot.RightIntakeArm.setPosition(robot.rightintakearmfat);
+            robot.LeftIntakeArm.setPosition(robot.leftintakearmfat);
+        }
+        else if(intakearmout){
             robot.RightIntakeArm.setPosition(robot.rightintakearmout);
             robot.LeftIntakeArm.setPosition(robot.leftintakearmout);
         }
@@ -79,6 +88,9 @@ public class SSTeleop extends OpMode {
             robot.RightIntakeArm.setPosition(robot.rightintakearmin);
             robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
         }
+
+
+
         if(runtime.seconds()>122){
             robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
         }
@@ -141,17 +153,29 @@ else{
         }
 
         if(gamepad1.right_bumper){
-            robot.LeftIntake.setPower(1);
-            robot.RightIntake.setPower(1);
-            intakearmout = false;
+            robot.LeftIntake.setPower(.75);
+            robot.RightIntake.setPower(.75);
+
+            robot.RightIntakeArm.setPosition(robot.rightintakearmin);
+            robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
+
             robot.LeftClaw.setPosition(robot.leftclawopen);
             robot.RightClaw.setPosition(robot.rightclawclose);
+
+            intakearmfat = false;
         }
 
         else if (gamepad1.x){
-            robot.LeftIntake.setPower(-1);
-            robot.RightIntake.setPower(-1);
-            intakearmout = false;
+            robot.LeftIntake.setPower(-.75);
+            robot.RightIntake.setPower(-.75);
+
+            robot.RightIntakeArm.setPosition(robot.rightintakearmin);
+            robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
+            intakearmfat = false;
+        }
+
+        else if(gamepad1.dpad_right){
+            intakearmfat = true;
         }
         else{
             robot.LeftIntake.setPower(0);
@@ -182,7 +206,9 @@ robot.LeftClaw.setPosition(robot.gripperup);
         if(gamepad1.dpad_down){
             robot.RightClaw.setPosition(robot.rightclawclose);
 
-        }        if(gamepad1.right_stick_button){
+        }
+
+        if(gamepad1.right_stick_button){
             robot.LeftLatch.setPosition(robot.leftlatchclose);
             robot.RightLatch.setPosition(robot.rightlatchclose);
         }

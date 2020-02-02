@@ -58,7 +58,7 @@ import java.util.Locale;
 public class DogeCVDetect extends SSAutoClasses {
 
 
-    ImprovedSkystoneDetector detector;
+    ImprovedSkystonePhoneDetector detector;
     OpenCvCamera webcam;
 
     @Override
@@ -68,7 +68,7 @@ public class DogeCVDetect extends SSAutoClasses {
                 .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         webcam.openCameraDevice();
-        this.detector = new ImprovedSkystoneDetector();
+        this.detector = new ImprovedSkystonePhoneDetector();
         this.detector.useDefaults();
         webcam.setPipeline(detector);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);

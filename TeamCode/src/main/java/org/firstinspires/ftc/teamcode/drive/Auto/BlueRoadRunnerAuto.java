@@ -27,18 +27,19 @@ public class BlueRoadRunnerAuto extends SSAutoClasses {
     int skystone = 0;
 
  Pose2d Start = new Pose2d(-36,60,0);
- Pose2d FirstBlock = new Pose2d(-60,37,0);
- Pose2d SecondBlock = new Pose2d(-52,37,0);
- Pose2d ThirdBlock = new Pose2d(-44,37,0);
-     Pose2d FourthBlock = new Pose2d(-36,37,0);
-     Pose2d FifthBlock = new Pose2d(-29,37,0);
-     Pose2d SixthBlock = new Pose2d(-20,37,0);
-     Pose2d Foundation = new Pose2d(48,35.5,0);
-    Pose2d Foundation3 = new Pose2d(52,35.5,0);
-     Pose2d FoundationGrab = new Pose2d(60,31.5, Math.toRadians(270));
-    Pose2d FoundationGrabForward = new Pose2d(60,37.5, Math.toRadians(270));
+ Pose2d FirstBlock = new Pose2d(-60,36,0);
+ Pose2d SecondBlock = new Pose2d(-52,36,0);
+ Pose2d ThirdBlock = new Pose2d(-40,36,0);
+     Pose2d FourthBlock = new Pose2d(-36,35.5,0);
+     Pose2d FifthBlock = new Pose2d(-29,35.5,0);
+     Pose2d SixthBlock = new Pose2d(-18,35.5,0);
+     Pose2d Foundation = new Pose2d(48,34.75,0);
+    Pose2d Foundation3 = new Pose2d(52,34.75,0);
+     Pose2d FoundationGrab = new Pose2d(60,30.5, Math.toRadians(270));
+    Pose2d FoundationGrabForward = new Pose2d(60,28.5, Math.toRadians(270));
  Pose2d FoundationIn = new Pose2d(42,55,0);
-Pose2d Park = new Pose2d(5,40,0);
+ Pose2d ParkY = new Pose2d(42,40,0);
+Pose2d Park = new Pose2d(5,36,0);
 
 
     @Override
@@ -51,20 +52,21 @@ Pose2d Park = new Pose2d(5,40,0);
 
         waitForStart();
         skystone = runDetection(0);
-        sleep(150);
+        sleep(50);
         if (isStopRequested()) return;
         Trajectory theskystone = drive.trajectoryBuilder()
                 .setReversed(true)
                 .addMarker( .15,
                         ()->{
                             drive.AutoArmRotate.setPosition(servorotaterblue);
+                            drive.AutoArmJoint.setPosition(servojointup);
                             return Unit.INSTANCE;})
                 .strafeTo(BlueStoneMove(skystone))
                 .build();
 
 
         drive.followTrajectorySync(theskystone);
-        StonePickup();
+        FirstStonePickup();
         drive.BlueDeliverMove(Foundation);
         StoneDeliver();
 
@@ -80,6 +82,8 @@ Pose2d Park = new Pose2d(5,40,0);
         drive.BlueDeliverMove(Foundation);
         StoneDeliver();
 
+        drive.setPoseEstimate(new Pose2d(drive.getLocalizer().getPoseEstimate().getX(),drive.getLocalizer().getPoseEstimate().getY()-1,drive.getLocalizer().getPoseEstimate().getHeading()));
+
         if (skystone == 1 || skystone == 0) {
             drive.BluePickupsixMove(SixthBlock);
         } else if (skystone == 2) {
@@ -87,24 +91,41 @@ Pose2d Park = new Pose2d(5,40,0);
         } else if (skystone == 3) {
             drive.BluePickupMove(FifthBlock);
         }
+
+
         StonePickup();
         drive.BlueDeliverMove(Foundation3);
         StoneDeliver();
 
+        if (skystone == 1 || skystone == 0) {
+            drive.BluePickupMove(FifthBlock);
+        } else if (skystone == 2) {
+            drive.BluePickupMove(FourthBlock);
+        } else if (skystone == 3) {
+            drive.BluePickupMove(FourthBlock);
+
+        }
+        StonePickup();
+        drive.AutoArmRotate.setPosition(servorotateback);
+        drive.BlueDeliverMove(Foundation3);
+        StoneDeliver();
+
+        sleep(100);
         ArmUpReset();
-       drive.Yeet(FoundationGrab,270,false);
-       drive.AutoArmRotate.setPosition(servorotatehome);
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .forward(5.5)
+                        .splineTo(FoundationGrab,new ConstantInterpolator(Math.toRadians(270)))
+                        .addMarker(()->{drive.AutoArmRotate.setPosition(servorotatehome);
+                        return Unit.INSTANCE;})
+                        .splineTo(FoundationGrabForward,new ConstantInterpolator(Math.toRadians(270)))
                         .build());
        GrabFoundation();
-       sleep(350);
-        drive.Yeet(FoundationIn,0, true);
+       sleep(150);
+       drive.Yeet(FoundationIn,0,true);
         ReleaseFoundation();
         ArmKill();
-        sleep(350);
-        drive.Yeet(Park, 0,true);
+        sleep(50);
+        drive.ConstantYeet(Park, 0,true);
 
 
 
