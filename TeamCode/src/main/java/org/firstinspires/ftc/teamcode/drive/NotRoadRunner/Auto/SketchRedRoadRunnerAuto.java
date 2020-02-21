@@ -1,13 +1,11 @@
-package org.firstinspires.ftc.teamcode.drive.Auto;
+package org.firstinspires.ftc.teamcode.drive.NotRoadRunner.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses;
 import org.firstinspires.ftc.teamcode.drive.localizer.TwoTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
@@ -20,7 +18,7 @@ import kotlin.Unit;
  */
 @Config
 @Autonomous(group = "drive")
-public class RedRoadRunnerAuto extends SSAutoClasses {
+public class SketchRedRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
 
@@ -32,9 +30,9 @@ public class RedRoadRunnerAuto extends SSAutoClasses {
  Pose2d FourthBlock = new Pose2d(-29,-35.5,0);
  Pose2d FifthBlock = new Pose2d(-22,-35.5,0);
  Pose2d SixthBlock = new Pose2d(-14,-35.5,0);
- Pose2d Foundation = new Pose2d(54,-32,0);
- Pose2d Foundation2 = new Pose2d(56,-32,0);
- Pose2d Foundation3 = new Pose2d(58,-33,0);
+ Pose2d Foundation = new Pose2d(54,-33.5,0);
+ Pose2d Foundation2 = new Pose2d(56,-33.5,0);
+ Pose2d Foundation3 = new Pose2d(58,-33.5,0);
  Pose2d FoundationGrab = new Pose2d(62,-29, Math.toRadians(90));
  Pose2d FoundationGrabForward = new Pose2d(62,-26, Math.toRadians(90));
  Pose2d FoundationIn = new Pose2d(42,-55,0);

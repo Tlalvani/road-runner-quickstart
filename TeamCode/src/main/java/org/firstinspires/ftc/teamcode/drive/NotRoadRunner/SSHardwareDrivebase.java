@@ -52,46 +52,53 @@ public class SSHardwareDrivebase {
     double leftintakearmin = .9;
     double rightintakearmin = .35;
 
-    double servorotaterblue = .09;
-    double servorotatered = .75;
+    double servorotaterblue = .1;
+    double servorotatered = .73;
+
     double servorotateback = .41;
-    double servorotatehome = .98;
+    double servorotatehome = 1;
 
-    double servoarmup = .18;
-    double servoarmdown = .43;
-   double servoarmpickup = .49;
+    double servorotateredpartial = .57;
+    double servorotatebluepartial = .49;
 
+
+    double servoarmup = .41;    //.18
+    double servoarmdown = .68;  //.43
+   double servoarmpickup = .77; //.49
+    double servoarmhigh = .2;
     double servoarmhome = .37;
-    double servoarmdeliver = .4;
+    double servoarmdeliver = .65;
+
     double servojointup = .18;
-    double servojointdown =.74;
+    double servojointdown =.7;
     double servojointdeliver = .6;
     double servojointdeliverred = .5;
     double servojointhome = .2;
 
     double leftlatchopen = .35;
     double rightlatchopen = .7;
-    double leftlatchclose = .5;
-    double rightlatchclose = .4;
 
-    double grab1close = .63;
-    double grab2close = .23;
+    double leftlatchclose = .5; //.6
+    double rightlatchclose = .45; //.45
+
+    double grab1close = .7;
+    double grab2close = .20;
 
     double grab1open = .3;
     double grab2open = .6;
 
-    double grab1home = .65;
+    double grab1home = .5;
     double grab2home = .8;
 
-
+double parkslidein = .75;
+double parkslideout = .5;
     boolean Liftedup = false;
 
-    RevBlinkinLedDriver blinkinLedDriver;
-    RevBlinkinLedDriver.BlinkinPattern pattern;
+
 
     /* Public OpMode members. */
     public DcMotor Lift1, Lift2, LeftIntake, RightIntake;
-    public Servo LeftLatch, RightLatch, LeftClaw, RightClaw, LeftIntakeArm, RightIntakeArm, Grab1, Grab2;
+    public Servo LeftLatch, RightLatch, LeftClaw, RightClaw, LeftIntakeArm, RightIntakeArm, Grab1, Grab2,ParkSlide;
     public ServoImplEx AutoArm,AutoArmJoint,AutoArmRotate;
 public DcMotorEx PID;
     public DcMotorEx LF,RF,LB,RB;
@@ -136,9 +143,7 @@ public DcMotorEx PID;
         Grab1 = hwMap.servo.get("grab1");
         Grab2 = hwMap.servo.get("grab2");
 
-        blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
-        pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
-        blinkinLedDriver.setPattern(pattern);
+        ParkSlide = hwMap.servo.get("parkslide");
 
 
         LB.setDirection(DcMotor.Direction.REVERSE);
@@ -272,6 +277,12 @@ public DcMotorEx PID;
         LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void ParkSlideIn(){
+        ParkSlide.setPosition(parkslidein);
+    }
+    public void ParkSlideOut(){
+        ParkSlide.setPosition(parkslideout);
+    }
 
 }
 

@@ -16,7 +16,6 @@ public class SSArmPickup extends SSAutoClasses
         robot.AutoArm.setPosition(robot.servoarmdown);
 
         waitForStart();
-        robot.AutoArmRotate.setPosition(robot.servorotaterblue);
         sleep(2000);
         StonePickup();
 sleep(1000000);

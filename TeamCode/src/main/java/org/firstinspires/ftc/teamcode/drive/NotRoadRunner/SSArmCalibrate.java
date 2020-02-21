@@ -14,7 +14,6 @@ public class SSArmCalibrate extends SSAutoClasses
     public void runOpMode() throws InterruptedException {
        initSensors();
         waitForStart();
-
         while(opModeIsActive()) {
 if(gamepad1.dpad_right){
 robot.AutoArmRotate.setPosition(robot.servorotaterblue);}
@@ -31,6 +30,13 @@ robot.AutoArmRotate.setPosition(robot.servorotaterblue);}
 if(gamepad1.a){
     robot.AutoArm.setPosition(robot.servoarmdown);
 
+}
+if(gamepad1.y){
+    robot.AutoArm.setPosition(robot.servoarmpickup);
+}
+
+if(gamepad1.x){
+    robot.AutoArm.setPosition(.15);
 }
         }
 

@@ -678,7 +678,7 @@ telemetry.update();
 
         period.reset();
         if (angles.firstAngle < (degrees - AngleTolerance) || angles.firstAngle > (degrees + AngleTolerance) & opModeIsActive() & !isStopRequested()) {
-            robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+            //robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
             // positie turns left, think of a x,y coordinate system
             telemetry.update();
 
@@ -717,7 +717,7 @@ telemetry.update();
         }
         else {
             Drive(.1, .1);
-            robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+           // robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
 
     }

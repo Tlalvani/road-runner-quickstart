@@ -1,17 +1,13 @@
-package org.firstinspires.ftc.teamcode.drive.Auto;
+package org.firstinspires.ftc.teamcode.drive.NotRoadRunner.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
-import com.acmerobotics.roadrunner.path.heading.HeadingInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses;
-import org.firstinspires.ftc.teamcode.drive.localizer.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.localizer.TwoTrackingWheelLocalizer;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 import kotlin.Unit;
@@ -22,7 +18,7 @@ import kotlin.Unit;
  */
 @Config
 @Autonomous(group = "drive")
-public class BlueRoadRunnerAuto extends SSAutoClasses {
+public class SketchBlueRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
 
@@ -30,13 +26,13 @@ public class BlueRoadRunnerAuto extends SSAutoClasses {
  Pose2d FirstBlock = new Pose2d(-60,36,0);
  Pose2d SecondBlock = new Pose2d(-52,36,0);
  Pose2d ThirdBlock = new Pose2d(-40,36,0);
-     Pose2d FourthBlock = new Pose2d(-36,35.5,0);
-     Pose2d FifthBlock = new Pose2d(-29,35.5,0);
-     Pose2d SixthBlock = new Pose2d(-18,35.5,0);
-     Pose2d Foundation = new Pose2d(48,34.75,0);
-    Pose2d Foundation3 = new Pose2d(52,34.75,0);
+     Pose2d FourthBlock = new Pose2d(-41,37,0);
+     Pose2d FifthBlock = new Pose2d(-34,37,0);
+     Pose2d SixthBlock = new Pose2d(-24,37,0);
+     Pose2d Foundation = new Pose2d(48,36.5,0);
+    Pose2d Foundation3 = new Pose2d(52,36.5,0);
      Pose2d FoundationGrab = new Pose2d(60,30.5, Math.toRadians(270));
-    Pose2d FoundationGrabForward = new Pose2d(60,28.5, Math.toRadians(270));
+    Pose2d FoundationGrabForward = new Pose2d(60,25.5, Math.toRadians(270));
  Pose2d FoundationIn = new Pose2d(42,55,0);
  Pose2d ParkY = new Pose2d(42,40,0);
 Pose2d Park = new Pose2d(5,36,0);
@@ -82,7 +78,7 @@ Pose2d Park = new Pose2d(5,36,0);
         drive.BlueDeliverMove(Foundation);
         StoneDeliver();
 
-        drive.setPoseEstimate(new Pose2d(drive.getLocalizer().getPoseEstimate().getX(),drive.getLocalizer().getPoseEstimate().getY()-1,drive.getLocalizer().getPoseEstimate().getHeading()));
+      //drive.setPoseEstimate(new Pose2d(drive.getLocalizer().getPoseEstimate().getX(),drive.getLocalizer().getPoseEstimate().getY()+1,drive.getLocalizer().getPoseEstimate().getHeading()));
 
         if (skystone == 1 || skystone == 0) {
             drive.BluePickupsixMove(SixthBlock);

@@ -4,10 +4,17 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVelocityF;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.grab1open;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.grab2open;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmdeliver;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmdown;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmup;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servojointdeliver;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servojointup;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotateback;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotatehome;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotateinvertblue;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotateinvertred;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotaterblue;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servorotatered;
 
@@ -51,10 +58,8 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     public List<ExpansionHubMotor> motors;
     private BNO055IMU imu;
     public DcMotor Lift1, Lift2, LeftIntake, RightIntake;
-    public Servo LeftLatch, RightLatch, LeftClaw, RightClaw, LeftIntakeArm, RightIntakeArm,AutoArmRotate, Grab1, Grab2;
+    public Servo LeftLatch, RightLatch, LeftClaw, RightClaw, LeftIntakeArm, RightIntakeArm,AutoArmRotate, Grab1, Grab2,ParkSlide;
     public ServoImplEx AutoArm,AutoArmJoint;
-    RevBlinkinLedDriver blinkinLedDriver;
-    RevBlinkinLedDriver.BlinkinPattern pattern;
     double redyoffset = -36.5;
 
     public SampleMecanumDriveREVOptimized(HardwareMap hardwareMap) {
@@ -101,11 +106,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
         AutoArmRotate = hardwareMap.servo.get("autoarmrotate");
         Grab1 = hardwareMap.servo.get("grab1");
         Grab2 = hardwareMap.servo.get("grab2");
-
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-        pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
-        blinkinLedDriver.setPattern(pattern);
-
+        ParkSlide = hardwareMap.servo.get("parkslide");
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (ExpansionHubMotor motor : motors) {
@@ -262,11 +263,11 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotateback);
                             return Unit.INSTANCE;})
-                        .addMarker(new Vector2d(40,37),
+                        .addMarker(new Vector2d(20,37),
                                 ()->{
                              AutoArmRotate.setPosition(servorotaterblue);
                             return Unit.INSTANCE;})
-                        .splineTo(position)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()
         );
 
@@ -279,9 +280,57 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotateback);
                                     return Unit.INSTANCE;})
-                        .addMarker(new Vector2d(40,37),
+                        .addMarker(new Vector2d(20,37),
                                 ()->{
                                     AutoArm.setPosition(servoarmup);
+                                    AutoArmRotate.setPosition(servorotatehome);
+                                    return Unit.INSTANCE;})
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
+                        .build()
+        );
+
+    }
+
+    public void BlueFirstDeliverMove(Pose2d position){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .addMarker(
+                                new Vector2d(-22,-redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotateback);
+                                    return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(20,-redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotatered);
+                                    AutoArm.setPosition(servoarmup);
+                                    AutoArmJoint.setPosition(servojointup);
+                                    return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(40,-redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotatehome);
+                                    return Unit.INSTANCE;})
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
+                        .build()
+        );
+
+    }
+
+    public void RedFirstDeliverMove(Pose2d position){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .addMarker(
+                                new Vector2d(-22,redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotateback);
+                                    return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(20,redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotatered);
+                                    AutoArm.setPosition(servoarmup);
+                                    AutoArmJoint.setPosition(servojointup);
+                                    return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(40,redyoffset),
+                                ()->{
                                     AutoArmRotate.setPosition(servorotatehome);
                                     return Unit.INSTANCE;})
                         .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
@@ -306,6 +355,44 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
 
     }
 
+    public void RedReversePickupMove(Pose2d position){
+        AutoArmRotate.setPosition(servorotateback);
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .setReversed(false)
+                        .addMarker(new Vector2d(-21,redyoffset),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotateinvertred);
+                                    return Unit.INSTANCE;})
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(180)))
+                        .build()
+        );
+
+    }
+    public void BlueReversePickupMove(Pose2d position){
+        AutoArmRotate.setPosition(servorotateback);
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .setReversed(false)
+                        .addMarker(new Vector2d(-21,37),
+                                ()->{
+                                    AutoArmRotate.setPosition(servorotateinvertblue);
+                                    return Unit.INSTANCE;})
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(180)))
+                        .build()
+        );
+
+    }
+
+    public void BlueReverseDeliverMove(Pose2d position){
+        followTrajectorySync(
+                trajectoryBuilder()
+                        .setReversed(true)
+                        .splineTo(position,new ConstantInterpolator(Math.toRadians(180)))
+                        .build()
+        );
+
+    }
     public void RedPickupsixMove(Pose2d position){
         followTrajectorySync(
                 trajectoryBuilder()
@@ -330,7 +417,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                 ()->{
                                     AutoArmRotate.setPosition(servorotateback);
                                     return Unit.INSTANCE;})
-                        .addMarker(new Vector2d(48,redyoffset),
+                        .addMarker(new Vector2d(30,redyoffset),
                                 ()->{
                                     AutoArmRotate.setPosition(servorotatered);
                                     return Unit.INSTANCE;})
@@ -345,11 +432,11 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                 trajectoryBuilder()
                         .addMarker(
                                 new Vector2d(-19,37),
-                                ()->{ blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+                                ()->{ //blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
                             return Unit.INSTANCE;})
                         .addMarker(new Vector2d(40,37),
                         ()->{
-                            blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+                           // blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
                             return Unit.INSTANCE;})
                         .splineTo(position,new ConstantInterpolator(Math.toRadians(0)))
                         .build()

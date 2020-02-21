@@ -56,17 +56,31 @@ abstract public class SSAutoClasses extends LinearOpMode {
 
     public static double servorotaterblue = new SSHardwareDrivebase().servorotaterblue;
     public static double servorotatered = new SSHardwareDrivebase().servorotatered;
+    public static double servorotateinvertblue = servorotatered+.02;
+    public static double servorotateinvertred= servorotaterblue-.02;
+
     public static double servorotateback = new SSHardwareDrivebase().servorotateback;
     public static double servorotatehome = new SSHardwareDrivebase().servorotatehome;
+
+    public static double servorotateredpartial = new SSHardwareDrivebase().servorotateredpartial;
+
+    public static double servorotatebluepartial = new SSHardwareDrivebase().servorotatebluepartial;
+
 
     public static double servoarmup = new SSHardwareDrivebase().servoarmup;
     public static double servoarmdown = new SSHardwareDrivebase().servoarmdown;
     public static double servoarmpickup = new SSHardwareDrivebase().servoarmpickup;
-    public static double servoarmhome = .37;
-    public static double servoarmdeliver = .4;
+    public static double servoarmhome = new SSHardwareDrivebase().servoarmhome;
+    public static double servoarmdeliver = new SSHardwareDrivebase().servoarmdeliver;
+    public static double servoarmhigh = new SSHardwareDrivebase().servoarmhigh;
+    public static double servoarmbridge = .74;
+
+    public static double grab1open = new SSHardwareDrivebase().grab1open;
+    public static double grab2open = new SSHardwareDrivebase().grab2open;
+
     public static double servojointback = .15;
     public static double servojointup = .2;
-    public static double servojointdown =.74;
+    public static double servojointdown =.7;
     public static double servojointdeliver = .6;
     public static double servojointdeliverred = .5;
     public static double servojointhome = .2;
@@ -88,8 +102,6 @@ abstract public class SSAutoClasses extends LinearOpMode {
     protected ElapsedTime period = new ElapsedTime();
 
 
-    public double grab1open = robot.grab1open;
-    public double grab2open = robot.grab2open;
     public double grab1close = robot.grab1close;
     public double grab2close = robot.grab2close;
 
@@ -113,7 +125,7 @@ abstract public class SSAutoClasses extends LinearOpMode {
         robot.Grab2.setPosition(robot.grab2home);
         robot.LeftLatch.setPosition(robot.leftlatchopen);
         robot.RightLatch.setPosition(robot.rightlatchopen);
-
+        robot.ParkSlideIn();
 
     }
 
@@ -140,48 +152,48 @@ abstract public class SSAutoClasses extends LinearOpMode {
     }
 
 
-    public void DrivebaseBusy() {
-        while (robot.LB.isBusy() & robot.RF.isBusy() & robot.LF.isBusy() & robot.RB.isBusy() & opModeIsActive()) {
-telemetry.update();
-        }
-    }
-
-    public double RampPower(double distance, double maxpower, double minpower) {
-        double power = Range.clip(Math.abs(robot.RB.getCurrentPosition() - robot.RB.getTargetPosition()) / distance, minpower, maxpower);
-        return power;
-
-    }
-    public void RightAngleTurnTargetPosition(int RFpower, int RBpower) {
-        robot.RB.setTargetPosition(robot.RB.getCurrentPosition() + RBpower);
-        robot.RF.setTargetPosition(robot.RF.getCurrentPosition() + RFpower);
-
-        robot.RB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public void StonePickup(){
+        //Stone pickup
+        robot.AutoArm.setPosition(robot.servoarmpickup);
+        robot.AutoArmJoint.setPosition(robot.servojointdown);
+        sleep(350);
+        robot.Grab1.setPosition(robot.grab1close);
+        robot.Grab2.setPosition(robot.grab2close);
+        sleep(300);
+        robot.AutoArmJoint.setPosition(robot.servojointup);
+        robot.AutoArm.setPosition(servoarmbridge);
+        sleep(200);
 
     }
-
-    public void LeftAngleTurnTargetPosition(int LFpower, int LBpower) {
-        robot.LB.setTargetPosition(robot.RB.getCurrentPosition() + LBpower);
-        robot.LF.setTargetPosition(robot.RF.getCurrentPosition() + LFpower);
-
-        robot.LB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.LF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+    public void FirstStonePickup(){
+        //First SkyStone pickup
+        robot.AutoArm.setPosition(robot.servoarmpickup);
+        robot.Grab1.setPosition(robot.grab1open);
+        robot.Grab2.setPosition(robot.grab2open);
+        robot.AutoArmJoint.setPosition(robot.servojointdown);
+        sleep(350);
+        robot.Grab1.setPosition(robot.grab1close);
+        robot.Grab2.setPosition(robot.grab2close);
+        sleep(300);
+        robot.AutoArmJoint.setPosition(robot.servojointup);
+        robot.AutoArm.setPosition(servoarmbridge);
+        sleep(200);
     }
-    public void RightDrivebaseBusy() {
-        while (robot.RF.isBusy() & robot.RB.isBusy() & opModeIsActive()) {}
+    public void StoneDeliver(){
+        //Deliver
+        robot.AutoArm.setPosition(robot.servoarmdeliver);
+        robot.AutoArmJoint.setPosition(robot.servojointdeliver);
+        sleep(150);
+        robot.Grab1.setPosition(robot.grab1open);
+        robot.Grab2.setPosition(robot.grab2open);
     }
 
-    public void LeftDrivebaseBusy() {
-        while (robot.LF.isBusy() & robot.LB.isBusy() & opModeIsActive()) {}
-    }
-
-
-    public void liftup(){
-        if(robot.LiftCurrentPosition()<410){
-            robot.Lift(.5);
-        }
-        robot.Lift(0);
+    public void StoneBackDeliver(){
+        //Deliver
+        robot.AutoArm.setPosition(robot.servoarmdeliver);
+        robot.AutoArmJoint.setPosition(robot.servojointdeliver);
+        robot.Grab1.setPosition(robot.grab1open);
+        robot.Grab2.setPosition(robot.grab2open);
     }
     public void ResetArm() {
         robot.AutoArmJoint.setPosition(robot.servojointup);
@@ -203,44 +215,6 @@ telemetry.update();
     }
 
 
-
-    public void StonePickup(){
-        //Stone pickup
-        robot.AutoArm.setPosition(robot.servoarmpickup);
-        robot.AutoArmJoint.setPosition(robot.servojointdown);
-        sleep(250);
-        robot.Grab1.setPosition(robot.grab1close);
-        robot.Grab2.setPosition(robot.grab2close);
-        sleep(400);
-        robot.AutoArmJoint.setPosition(robot.servojointup);
-        robot.AutoArm.setPosition(robot.servoarmdown);
-        sleep(200);
-    }
-    public void FirstStonePickup(){
-        //First SkyStone pickup
-        robot.AutoArm.setPosition(robot.servoarmpickup);
-        robot.Grab1.setPosition(robot.grab1open);
-        robot.Grab2.setPosition(robot.grab2open);
-        robot.AutoArmJoint.setPosition(robot.servojointdown);
-        sleep(250);
-        robot.Grab1.setPosition(robot.grab1close);
-        robot.Grab2.setPosition(robot.grab2close);
-        sleep(450);
-        robot.AutoArmJoint.setPosition(robot.servojointup);
-        robot.AutoArm.setPosition(robot.servoarmdown);
-        sleep(200);
-    }
-    public void StoneDeliver(){
-        //Deliver
-        robot.AutoArm.setPosition(robot.servoarmdeliver);
-        robot.AutoArmJoint.setPosition(robot.servojointdeliver);
-        sleep(150);
-        robot.Grab1.setPosition(robot.grab1open);
-        robot.Grab2.setPosition(robot.grab2open);
-
-
-    }
-
     protected void initDogeCV() {
         // Start camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources()
@@ -251,6 +225,7 @@ telemetry.update();
         this.detector.useDefaults();
         webcam.setPipeline(detector);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+
 
     }
 
@@ -265,6 +240,10 @@ telemetry.update();
 
     }
 
+    protected void closeDogeCV(){
+       webcam.stopStreaming();
+       webcam.closeCameraDevice();
+    }
     protected int runDetection(int value) {
         if (detector.getScreenPosition().x < 65) {
             value = 2;
@@ -304,25 +283,25 @@ telemetry.update();
 
 
     public Vector2d BlueStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-60.5,38.5);
+        Vector2d position = new Vector2d(-58,37);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-60.5,38.5);
+            position = new Vector2d(-58,37);
         } else if (skystone == 2) {
-            position = new Vector2d(-52,38.5);
+            position = new Vector2d(-52,37);
         } else if (skystone == 3) {
-           position = new Vector2d(-43,38.5);
+           position = new Vector2d(-46,37);
         }
 return position;
     }
 
     public Vector2d RedStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-52,-36);
+        Vector2d position = new Vector2d(-52,-36.5);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-52,-36);
+            position = new Vector2d(-52,-36.5);
         } else if (skystone == 2) {
-            position = new Vector2d(-43,-36);
+            position = new Vector2d(-43,-36.5);
         } else if (skystone == 3) {
-            position = new Vector2d(-37,-36);
+            position = new Vector2d(-39,-36.5);
         }
         return position;
     }

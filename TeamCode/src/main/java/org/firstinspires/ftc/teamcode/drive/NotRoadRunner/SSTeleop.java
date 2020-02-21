@@ -34,13 +34,13 @@ public class SSTeleop extends OpMode {
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
-    private ElapsedTime runtime = new ElapsedTime();
+    public ElapsedTime runtime = new ElapsedTime();
     SSHardwareDrivebase robot = new SSHardwareDrivebase();
     double currentVelocity;
     double maxVelocity = 0.0;
     boolean intakearmout = true;
     boolean intakearmfat = false;
-
+    double i=0;
     /* Constructor */
     @Override
     public void init() {
@@ -71,7 +71,8 @@ public class SSTeleop extends OpMode {
      */
     @Override
     public void loop() {
-
+        robot.Grab1.setPosition(robot.grab1home);
+        robot.Grab2.setPosition(robot.grab2home);
 
         if(gamepad1.right_bumper||gamepad1.x){
             //OVERRIDE
@@ -89,8 +90,13 @@ public class SSTeleop extends OpMode {
             robot.LeftIntakeArm.setPosition(robot.leftintakearmin);
         }
 
-
-
+if(gamepad1.back){
+    robot.ParkSlideOut();
+}
+else{
+    robot.ParkSlideIn();
+}
+/*
         if(runtime.seconds()>122){
             robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
         }
@@ -107,7 +113,7 @@ else if (runtime.seconds()>60){
         }
 else{
     robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
-}
+}*/
         //robot.AutoArm.setPosition(robot.servoarmhome);
 
         float Ch1 = (gamepad1.right_stick_x);
@@ -232,13 +238,14 @@ robot.LeftClaw.setPosition(robot.gripperup);
         }
 
         telemetry.addData("LF: ", robot.LF.getCurrentPosition());
-        telemetry.addData("LB: ", robot.LB.getCurrentPosition());
+        //telemetry.addData("looptime",i++);
+       /* telemetry.addData("LB: ", robot.LB.getCurrentPosition());
         telemetry.addData("RF: ", robot.RF.getCurrentPosition());
         telemetry.addData("RB: ", robot.RB.getCurrentPosition());
         telemetry.addData("Velocity: ", maxVelocity);
         telemetry.addData("Right", robot.Lift2.getCurrentPosition());
         telemetry.addData("Left", robot.LeftIntake.getCurrentPosition());
-        telemetry.addData("Strafe", robot.RightIntake.getCurrentPosition());
+        telemetry.addData("Strafe", robot.RightIntake.getCurrentPosition()); */
 
         telemetry.update();
 

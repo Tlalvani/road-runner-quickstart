@@ -35,7 +35,7 @@ public class DriveConstants {
      * MOTOR_VELO_PID with the tuned coefficients from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(20,5,5);                   //new PIDCoefficients(10,3,1); //2.5,.1,.2
+    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(20,5,6);                   //new PIDCoefficients(10,3,1); //2.5,.1,.2
 
 
     /*
@@ -47,7 +47,7 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.96;
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = 1.42; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 12.5;
 
     /*
