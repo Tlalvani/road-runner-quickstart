@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
+import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses;
@@ -22,30 +24,31 @@ import kotlin.Unit;
 public class NewRedRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
-double yvalue = -35.5;
+double yvalue = -38;
 
  Pose2d Start = new Pose2d(-36,-60,0);
  Pose2d FirstBlock = new Pose2d(-53,yvalue,0);
  Pose2d SecondBlock = new Pose2d(-48,yvalue,0);
  Pose2d ThirdBlock = new Pose2d(-40,yvalue,0);
 
- Pose2d FourthBlock = new Pose2d(-40,yvalue,Math.toRadians(180));
- Pose2d FifthBlock = new Pose2d(-32,yvalue,Math.toRadians(180));
- Pose2d SixthBlock = new Pose2d(-22,yvalue,Math.toRadians(180));
+ Pose2d FourthBlock = new Pose2d(-42,yvalue,Math.toRadians(180));
+ Pose2d FifthBlock = new Pose2d(-34,yvalue,Math.toRadians(180));
+ Pose2d SixthBlock = new Pose2d(-23,yvalue,Math.toRadians(180));
 
- Pose2d Foundation = new Pose2d(59,-32.5,0);
+ Pose2d Foundation = new Pose2d(56.9,-32.5,0);
 
- Pose2d FoundationGrab = new Pose2d(59,-27, Math.toRadians(90));
- Pose2d FoundationGrabForward = new Pose2d(59,-24.5, Math.toRadians(90));
+ Pose2d FoundationGrab = new Pose2d(57,-31, Math.toRadians(90));
+ Pose2d FoundationGrabForward = new Pose2d(57,-23.5, Math.toRadians(90));
 
- Pose2d FoundationClose = new Pose2d(26,-40, Math.toRadians(0));
+ Pose2d FoundationClose = new Pose2d(26,-41, Math.toRadians(0));
     Pose2d FoundationCloseStart = new Pose2d(22,yvalue,Math.toRadians(180));
  Pose2d FoundationCloseScore = new Pose2d(26,yvalue,Math.toRadians(180));
 
- Pose2d FoundationIn = new Pose2d(45,-36,Math.toRadians(180));
+ Pose2d FoundationIn = new Pose2d(47,-36,Math.toRadians(180));
 
-Pose2d Park = new Pose2d(0,-36,Math.toRadians(180));
+Pose2d Park = new Pose2d(9,-36,Math.toRadians(180));
 
+    private DriveConstraints constraints = new DriveConstraints(35, 35.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,12 +57,12 @@ Pose2d Park = new Pose2d(0,-36,Math.toRadians(180));
         initSensors();
         initDogeCV();
         drive.setPoseEstimate(Start);
-
+        TrajectoryBuilder builder1 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints);
         waitForStart();
         skystone = runPhoneDetection(0);
         sleep(50);
         if (isStopRequested()) return;
-        Trajectory theskystone = drive.trajectoryBuilder()
+        Trajectory theskystone = builder1
                 .setReversed(true)
                 .addMarker(
                         ()->{

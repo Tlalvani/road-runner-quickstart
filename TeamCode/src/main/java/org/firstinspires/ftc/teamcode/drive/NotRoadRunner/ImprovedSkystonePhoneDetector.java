@@ -53,7 +53,7 @@ public class ImprovedSkystonePhoneDetector extends DogeCVDetector {
     public static double START_ROW_FRAC = 0.5;
     public static double END_ROW_FRAC = 0.75;
     public static double START_COL_FRAC = 0.28;
-    public static double END_COL_FRAC = 0.88;
+    public static double END_COL_FRAC = 0.76;
 
 
 

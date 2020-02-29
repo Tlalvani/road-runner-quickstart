@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.g
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.grab2open;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmdeliver;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmdown;
+import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmhigh;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servoarmup;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servojointdeliver;
 import static org.firstinspires.ftc.teamcode.drive.NotRoadRunner.SSAutoClasses.servojointup;
@@ -301,6 +302,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
                                     return Unit.INSTANCE;})
                         .addMarker(new Vector2d(20,-redyoffset),
                                 ()->{
+                                   // AutoArm.setPosition(servoarmhigh);
                                     AutoArmRotate.setPosition(servorotatered);
                                     AutoArm.setPosition(servoarmup);
                                     AutoArmJoint.setPosition(servojointup);

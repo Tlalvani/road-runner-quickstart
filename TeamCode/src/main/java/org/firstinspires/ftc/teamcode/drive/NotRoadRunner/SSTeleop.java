@@ -225,11 +225,15 @@ robot.LeftClaw.setPosition(robot.gripperup);
 
         if(gamepad2.a){
             robot.AutoArm.setPwmDisable();
+            robot.AutoArmJoint.setPwmDisable();
         }
         else if(gamepad2.y){
             robot.AutoArmRotate.setPosition(robot.servorotateback);
             robot.AutoArm.setPwmEnable();
             robot.AutoArm.setPosition(robot.servoarmup);
+
+            robot.AutoArmJoint.setPwmEnable();
+            robot.AutoArmJoint.setPosition(robot.servojointup);
 
         }
         else{
@@ -239,10 +243,10 @@ robot.LeftClaw.setPosition(robot.gripperup);
 
         telemetry.addData("LF: ", robot.LF.getCurrentPosition());
         //telemetry.addData("looptime",i++);
-       /* telemetry.addData("LB: ", robot.LB.getCurrentPosition());
+        telemetry.addData("LB: ", robot.LB.getCurrentPosition());
         telemetry.addData("RF: ", robot.RF.getCurrentPosition());
         telemetry.addData("RB: ", robot.RB.getCurrentPosition());
-        telemetry.addData("Velocity: ", maxVelocity);
+       /* telemetry.addData("Velocity: ", maxVelocity);
         telemetry.addData("Right", robot.Lift2.getCurrentPosition());
         telemetry.addData("Left", robot.LeftIntake.getCurrentPosition());
         telemetry.addData("Strafe", robot.RightIntake.getCurrentPosition()); */

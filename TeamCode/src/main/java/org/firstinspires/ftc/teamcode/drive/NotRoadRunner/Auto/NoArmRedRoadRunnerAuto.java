@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.NotRoadRunner.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -30,8 +31,8 @@ public class NoArmRedRoadRunnerAuto extends SSAutoClasses {
     Pose2d SixthBlock = new Pose2d(-16,-36.5,0);
     Pose2d Foundation = new Pose2d(48,-34.5,0);
     Pose2d Foundation3 = new Pose2d(52,-34.5,0);
-    Pose2d FoundationGrab = new Pose2d(60,-32, Math.toRadians(90));
-    Pose2d FoundationGrabForward = new Pose2d(60,-37.5, Math.toRadians(90));
+    Pose2d FoundationGrab = new Pose2d(59,-27, Math.toRadians(90));
+    Pose2d FoundationGrabForward = new Pose2d(59,-24, Math.toRadians(90));
     Pose2d FoundationIn = new Pose2d(42,-55,0);
     Pose2d Park = new Pose2d(5,-40,0);
 
@@ -63,28 +64,19 @@ public class NoArmRedRoadRunnerAuto extends SSAutoClasses {
 
 
         drive.Yeet(Foundation,0,false);
-        drive.Yeet(FourthBlock,0,true);
-        drive.Yeet(Foundation,0,false);
-       /* drive.ReverseYeet(ThirdBlock);
-        drive.Yeet(Foundation);
-       /* drive.ReverseYeet(FifthBlock);
-        drive.Yeet(Foundation); */
-        drive.Yeet(SixthBlock,0,true);
-        drive.Yeet(Foundation,0,false);
-
-       drive.Yeet(FoundationGrab,90,false);
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .forward(5.5)
+                        .splineTo(FoundationGrab,new ConstantInterpolator(Math.toRadians(90)))
+                        .splineTo(FoundationGrabForward,new ConstantInterpolator(Math.toRadians(90)))
                         .build());
-       GrabFoundation();
+
+        GrabFoundation();
        sleep(350);
         drive.Yeet(FoundationIn,0, true);
         ReleaseFoundation();
 
-        drive.Yeet(Park, 0,true);
-        drive.Yeet(FirstBlock,0,true);
+        drive.ConstantYeet(Park, 0,true);
 
 
 

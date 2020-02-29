@@ -18,17 +18,17 @@ public class SSArmFrontDeposit extends SSAutoClasses
         waitForStart();
         StonePickup();
         sleep(1000);
-        robot.AutoArm.setPosition(robot.servoarmup);
+        robot.AutoArm.setPosition(servoarmhigh);
         sleep(1000);
-        robot.AutoArmRotate.setPosition(robot.servorotatehome);
-        robot.AutoArmJoint.setPosition(robot.servojointdeliver);
+      //  robot.AutoArmRotate.setPosition(robot.servorotatehome);
+     //   robot.AutoArmJoint.setPosition(robot.servojointdeliver);
         sleep(1000);
-        robot.Grab1.setPosition(robot.grab1home);
-        robot.Grab2.setPosition(robot.grab2home);
+        robot.Grab1.setPosition(robot.grab1open);
+        robot.Grab2.setPosition(robot.grab2open);
         sleep(1000);
-        ArmUpReset();
+        //ArmUpReset();
         sleep(1000);
-        ArmKill();
+        //ArmKill();
 
     }
 }

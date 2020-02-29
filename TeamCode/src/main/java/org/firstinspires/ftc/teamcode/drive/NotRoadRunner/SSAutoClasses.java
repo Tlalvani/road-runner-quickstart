@@ -57,7 +57,7 @@ abstract public class SSAutoClasses extends LinearOpMode {
     public static double servorotaterblue = new SSHardwareDrivebase().servorotaterblue;
     public static double servorotatered = new SSHardwareDrivebase().servorotatered;
     public static double servorotateinvertblue = servorotatered+.02;
-    public static double servorotateinvertred= servorotaterblue-.02;
+    public static double servorotateinvertred= servorotaterblue-.04;    //negative goes counter clockwise relative to front of robot
 
     public static double servorotateback = new SSHardwareDrivebase().servorotateback;
     public static double servorotatehome = new SSHardwareDrivebase().servorotatehome;
@@ -94,6 +94,7 @@ abstract public class SSAutoClasses extends LinearOpMode {
     double dt = 1;
     double maxpower = .48;
     ImprovedSkystoneDetector detector;
+    ImprovedSkystonePhoneDetector phonedetector;
     OpenCvCamera webcam;
 
     protected ElapsedTime runtime = new ElapsedTime();
@@ -221,9 +222,9 @@ abstract public class SSAutoClasses extends LinearOpMode {
                 .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         webcam.openCameraDevice();
-        this.detector = new ImprovedSkystoneDetector();
-        this.detector.useDefaults();
-        webcam.setPipeline(detector);
+        this.phonedetector = new ImprovedSkystonePhoneDetector();
+        this.phonedetector.useDefaults();
+        webcam.setPipeline(phonedetector);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
 
 
@@ -244,6 +245,11 @@ abstract public class SSAutoClasses extends LinearOpMode {
        webcam.stopStreaming();
        webcam.closeCameraDevice();
     }
+
+    protected void closestreamDogeCV(){
+        webcam.stopStreaming();
+    }
+
     protected int runDetection(int value) {
         if (detector.getScreenPosition().x < 65) {
             value = 2;
@@ -263,17 +269,17 @@ abstract public class SSAutoClasses extends LinearOpMode {
         return value;
     }
     protected int runPhoneDetection(int value) {
-        if (detector.getScreenPosition().x < 55) {
+        if (phonedetector.getScreenPosition().x < 35) {
             value = 3;
-        } else if (detector.getScreenPosition().x < 110) {
+        } else if (phonedetector.getScreenPosition().x < 90) {
             value = 1;
-        } else if (detector.getScreenPosition().x < 200) {
+        } else if (phonedetector.getScreenPosition().x < 200) {
             value = 2;
         } else {
             value = 1;
         }
-        telemetry.addData("Stone Position X", detector.getScreenPosition().x);
-        telemetry.addData("Stone Position Y", detector.getScreenPosition().y);
+        telemetry.addData("Stone Position X", phonedetector.getScreenPosition().x);
+        telemetry.addData("Stone Position Y", phonedetector.getScreenPosition().y);
         telemetry.addData("FPS", String.format(Locale.US, "%.2f", webcam.getFps()));
         telemetry.addData("Value", value);
         telemetry.update();
@@ -283,25 +289,25 @@ abstract public class SSAutoClasses extends LinearOpMode {
 
 
     public Vector2d BlueStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-58,37);
+        Vector2d position = new Vector2d(-60,38);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-58,37);
+            position = new Vector2d(-60,38);
         } else if (skystone == 2) {
-            position = new Vector2d(-52,37);
+            position = new Vector2d(-52,38);
         } else if (skystone == 3) {
-           position = new Vector2d(-46,37);
+           position = new Vector2d(-44,38);
         }
 return position;
     }
 
     public Vector2d RedStoneMove(int skystone) {
-        Vector2d position = new Vector2d(-52,-36.5);
+        Vector2d position = new Vector2d(-52,-35.5);
         if (skystone == 1 || skystone == 0) {
-            position = new Vector2d(-52,-36.5);
+            position = new Vector2d(-52,-35.5);
         } else if (skystone == 2) {
-            position = new Vector2d(-43,-36.5);
+            position = new Vector2d(-43,-35.5);
         } else if (skystone == 3) {
-            position = new Vector2d(-39,-36.5);
+            position = new Vector2d(-39,-35.5);
         }
         return position;
     }

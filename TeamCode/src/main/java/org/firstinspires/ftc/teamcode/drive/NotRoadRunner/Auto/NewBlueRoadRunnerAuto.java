@@ -25,9 +25,9 @@ import kotlin.Unit;
 public class NewBlueRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
-double yvalue = 38.5;
+double yvalue = 37;
 
-    private DriveConstraints constraints = new DriveConstraints(60, 70.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
+    private DriveConstraints constraints = new DriveConstraints(60, 80.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
 
  Pose2d Start = new Pose2d(-36,60,0);
  Pose2d FirstBlock = new Pose2d(-53,yvalue,0);
@@ -44,9 +44,9 @@ double yvalue = 38.5;
     Pose2d FoundationGrabForward = new Pose2d(50,25.5, Math.toRadians(270));
 
 
- Pose2d FoundationClose = new Pose2d(16,40, Math.toRadians(0));
-    Pose2d FoundationCloseStart = new Pose2d(14,yvalue+2,Math.toRadians(180));
- Pose2d FoundationCloseScore = new Pose2d(22,yvalue+1,Math.toRadians(180));
+ Pose2d FoundationClose = new Pose2d(16,41, Math.toRadians(0));
+    Pose2d FoundationCloseStart = new Pose2d(14,yvalue+1,Math.toRadians(180));
+ Pose2d FoundationCloseScore = new Pose2d(19,yvalue+1,Math.toRadians(180));
 
  Pose2d FoundationIn = new Pose2d(45,40,Math.toRadians(180));
  Vector2d Foundationin = new Vector2d(45,39);
@@ -72,6 +72,7 @@ Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
                         ()->{
                             drive.AutoArmRotate.setPosition(servorotaterblue);
                             drive.Grab2.setPosition(grab2close);
+                           // closestreamDogeCV();
                            // drive.AutoArmJoint.setPosition(.5);
                             return Unit.INSTANCE;})
                 .strafeTo(BlueStoneMove(skystone))
@@ -80,7 +81,7 @@ Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
         drive.followTrajectorySync(theskystone);
       // closeDogeCV();
         FirstStonePickup();
-        drive.RedFirstDeliverMove(Foundation);
+        drive.BlueFirstDeliverMove(Foundation);
         drive.AutoArmJoint.setPosition(servojointdeliver);
 
        /* drive.BlueDeliverMove(Foundation);
@@ -93,12 +94,15 @@ Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .splineTo(FoundationGrab,new ConstantInterpolator(Math.toRadians(270)))
-                        .addMarker(()->{drive.Grab1.setPosition(grab1open);
+                    /*    .addMarker(.5,()->{
+                            drive.Grab1.setPosition(grab1open);
                             drive.Grab2.setPosition(grab2open);
-                            return Unit.INSTANCE;})
+                            return Unit.INSTANCE;}) */
                         .splineTo(FoundationGrabForward,new ConstantInterpolator(Math.toRadians(270)))
                         .build());
 
+        drive.Grab1.setPosition(grab1open);
+        drive.Grab2.setPosition(grab2open);
         GrabFoundation();
         drive.AutoArmJoint.setPosition(servojointup);
 
@@ -114,7 +118,7 @@ Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .setReversed(false)
-                        .addMarker(.1,
+                        .addMarker(.3,
                                 ()->{
                                     drive.AutoArmRotate.setPosition(servorotateback);
                                     drive.AutoArm.setPosition(servoarmup);
@@ -148,7 +152,7 @@ Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
         drive.BlueReverseDeliverMove(FoundationCloseScore);
 
        StoneBackDeliver();
-       drive.setPoseEstimate(new Pose2d(drive.getLocalizer().getPoseEstimate().getX(),drive.getLocalizer().getPoseEstimate().getY()-1.5,drive.getLocalizer().getPoseEstimate().getHeading()));
+       //drive.setPoseEstimate(new Pose2d(drive.getLocalizer().getPoseEstimate().getX(),drive.getLocalizer().getPoseEstimate().getY()-1.5,drive.getLocalizer().getPoseEstimate().getHeading()));
 
 
 

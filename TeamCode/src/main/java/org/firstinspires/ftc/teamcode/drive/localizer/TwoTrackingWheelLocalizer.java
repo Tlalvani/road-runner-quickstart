@@ -40,8 +40,8 @@ public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.local
     public static double strafeWHEEL_RADIUS = 1.14; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 5.1;  //4.5 // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 2.89; // 3.19 in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 3.5;  //5.1 // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 2.625; // 3.19 in; offset of the lateral wheel
 
     public static double FRONT_OFFSET = 3;
     public static double HORIZONTAL_OFFSET = -5.1;
@@ -109,8 +109,8 @@ public class TwoTrackingWheelLocalizer extends com.acmerobotics.roadrunner.local
        /* for (ExpansionHubMotor encoder : encoders) {
             wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(encoder)));
         }
-      */    wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(leftEncoder)));
-        wheelPositions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(frontEncoder)));
+      */    wheelPositions.add(-strafeencoderTicksToInches(bulkData.getMotorCurrentPosition(leftEncoder)));
+        wheelPositions.add(-strafeencoderTicksToInches(bulkData.getMotorCurrentPosition(frontEncoder)));
         return wheelPositions;
     }
     @Override

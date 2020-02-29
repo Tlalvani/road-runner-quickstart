@@ -26,11 +26,11 @@ public class DepotSplineTest extends SSAutoClasses {
         initSensors();
         drive.AutoArm.setPwmDisable();
         //drive.setLocalizer(new MecanumDrive.MecanumLocalizer(drive));
-        drive.setPoseEstimate(new Pose2d(-36,60,0));
+        drive.setPoseEstimate(new Pose2d(-36,-60,0));
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .setReversed(true)
-                .splineTo(new Pose2d(-60,40,0))
+                .splineTo(new Pose2d(-60,-40,0))
                /* .addMarker(()->{
                     new Vector2d(-50,50);
                 drive.AutoArm.setPosition(servoarmdown);
