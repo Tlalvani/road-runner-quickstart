@@ -75,7 +75,7 @@ public class SSHardwareDrivebase {
     double servojointdeliverred = .5;
     double servojointhome = .2;
 
-    double leftlatchopen = .35;
+    double leftlatchopen = .3;
     double rightlatchopen = .7;
 
     double leftlatchclose = .5; //.6

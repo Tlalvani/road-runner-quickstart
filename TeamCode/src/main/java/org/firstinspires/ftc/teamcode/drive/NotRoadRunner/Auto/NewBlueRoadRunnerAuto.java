@@ -25,7 +25,7 @@ import kotlin.Unit;
 public class NewBlueRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
-double yvalue = 37;
+double yvalue = 37.5;
 
     private DriveConstraints constraints = new DriveConstraints(60, 80.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
 
@@ -46,12 +46,12 @@ double yvalue = 37;
 
  Pose2d FoundationClose = new Pose2d(16,41, Math.toRadians(0));
     Pose2d FoundationCloseStart = new Pose2d(14,yvalue+1,Math.toRadians(180));
- Pose2d FoundationCloseScore = new Pose2d(19,yvalue+1,Math.toRadians(180));
+ Pose2d FoundationCloseScore = new Pose2d(19,yvalue+1.5,Math.toRadians(180));
 
  Pose2d FoundationIn = new Pose2d(45,40,Math.toRadians(180));
  Vector2d Foundationin = new Vector2d(45,39);
 
-Pose2d Park = new Pose2d(6,42,Math.toRadians(180));
+Pose2d Park = new Pose2d(7,42,Math.toRadians(180));
 
 
     @Override

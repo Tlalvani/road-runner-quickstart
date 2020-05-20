@@ -24,31 +24,31 @@ import kotlin.Unit;
 public class NewRedRoadRunnerAuto extends SSAutoClasses {
 
     int skystone = 0;
-double yvalue = -38;
+double yvalue = -38.5;
 
  Pose2d Start = new Pose2d(-36,-60,0);
- Pose2d FirstBlock = new Pose2d(-53,yvalue,0);
- Pose2d SecondBlock = new Pose2d(-48,yvalue,0);
+ Pose2d FirstBlock = new Pose2d(-53,-37,0);
+ Pose2d SecondBlock = new Pose2d(-48,-37,0);
  Pose2d ThirdBlock = new Pose2d(-40,yvalue,0);
 
- Pose2d FourthBlock = new Pose2d(-42,yvalue,Math.toRadians(180));
+ Pose2d FourthBlock = new Pose2d(-43,yvalue,Math.toRadians(180));
  Pose2d FifthBlock = new Pose2d(-34,yvalue,Math.toRadians(180));
- Pose2d SixthBlock = new Pose2d(-23,yvalue,Math.toRadians(180));
+ Pose2d SixthBlock = new Pose2d(-26,yvalue,Math.toRadians(180));
 
- Pose2d Foundation = new Pose2d(56.9,-32.5,0);
+ Pose2d Foundation = new Pose2d(54,-34,0);
 
- Pose2d FoundationGrab = new Pose2d(57,-31, Math.toRadians(90));
- Pose2d FoundationGrabForward = new Pose2d(57,-23.5, Math.toRadians(90));
+    Pose2d FoundationGrab = new Pose2d(56,-34, Math.toRadians(90));
+    Pose2d FoundationGrabForward = new Pose2d(56,-28, Math.toRadians(90));
 
- Pose2d FoundationClose = new Pose2d(26,-41, Math.toRadians(0));
+ Pose2d FoundationClose = new Pose2d(26,-42, Math.toRadians(0));
     Pose2d FoundationCloseStart = new Pose2d(22,yvalue,Math.toRadians(180));
  Pose2d FoundationCloseScore = new Pose2d(26,yvalue,Math.toRadians(180));
 
- Pose2d FoundationIn = new Pose2d(47,-36,Math.toRadians(180));
+ Pose2d FoundationIn = new Pose2d(47,-34,Math.toRadians(180));
 
 Pose2d Park = new Pose2d(9,-36,Math.toRadians(180));
 
-    private DriveConstraints constraints = new DriveConstraints(35, 35.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
+    private DriveConstraints constraints = new DriveConstraints(40, 40.0, 0.0, Math.toRadians(135.0), Math.toRadians(135.0), 0.0);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,17 +62,48 @@ Pose2d Park = new Pose2d(9,-36,Math.toRadians(180));
         skystone = runPhoneDetection(0);
         sleep(50);
         if (isStopRequested()) return;
-        Trajectory theskystone = builder1
-                .setReversed(true)
-                .addMarker(
-                        ()->{
-                            drive.AutoArmRotate.setPosition(servorotatered);
-                            return Unit.INSTANCE;})
-                .strafeTo(RedStoneMove(skystone))
-                .build();
+       if(skystone==3) {
+           Trajectory theskystone = drive.trajectoryBuilder()
+                   .setReversed(true)
+                   .addMarker(
+                           () -> {
+                               drive.AutoArmRotate.setPosition(servorotatered);
+                               return Unit.INSTANCE;
+                           })
+                   .strafeTo(RedStoneMove(skystone))
+                 //  .splineTo(SecondBlock)
+                   .build();
+           drive.followTrajectorySync(theskystone);
+       }
+       else if(skystone==2){
+           Trajectory theskystone = drive.trajectoryBuilder()
+                   .setReversed(true)
+                   .addMarker(
+                           () -> {
+                               drive.AutoArmRotate.setPosition(servorotatered);
+                               return Unit.INSTANCE;
+                           })
+                   //.strafeTo(RedStoneMove(skystone))
+                   .splineTo(SecondBlock)
+                   .build();
+           drive.followTrajectorySync(theskystone);
+       }
+       else if(skystone==1){
+           Trajectory theskystone = drive.trajectoryBuilder()
+                   .setReversed(true)
+                   .addMarker(
+                           () -> {
+                               drive.AutoArmRotate.setPosition(servorotatered);
+                               return Unit.INSTANCE;
+                           })
+                   //.strafeTo(RedStoneMove(skystone))
+                   .splineTo(FirstBlock)
+                   .build();
+           drive.followTrajectorySync(theskystone);
+       }
 
         closeDogeCV();
-        drive.followTrajectorySync(theskystone);
+
         FirstStonePickup();
         drive.RedDeliverMove(Foundation);
         StoneDeliver();
@@ -85,10 +116,10 @@ Pose2d Park = new Pose2d(9,-36,Math.toRadians(180));
                 drive.trajectoryBuilder()
                         .splineTo(FoundationGrab,new ConstantInterpolator(Math.toRadians(90)))
                         .splineTo(FoundationGrabForward,new ConstantInterpolator(Math.toRadians(90)))
+                        //.forward(4)
                         .build());
 
         GrabFoundation();
-
         drive.Yeet(FoundationClose,0,true);
         ReleaseFoundation();
         sleep(50);
@@ -169,7 +200,7 @@ Pose2d Park = new Pose2d(9,-36,Math.toRadians(180));
         sleep(200);
         ArmUpReset();
         drive.AutoArmRotate.setPosition(servorotatehome);
-        sleep(500);
+        sleep(300);
         ArmKill();
         drive.ConstantYeet(Park,180,false);
 
